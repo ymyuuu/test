@@ -52,18 +52,17 @@
 				const formattedTime = currentTime.toLocaleString(); // 格式化时间
 
 				return `
-IP 地址: ${data.ip}
+${formattedTime}
 
+IP 地址: ${data.ip}
 具体位置: ${ipDetails.ipdata.info1} ${ipDetails.ipdata.info2} ${ipDetails.ipdata.info3}
 组织名称: ${data.organization}
 经度: ${data.longitude}
-时区: ${data.timezone}
-偏移量: ${data.offset}
-国家: ${data.country}
 纬度: ${data.latitude}
 大洲代码: ${data.continent_code}
 国家代码: ${data.country_code}
-当前时间: ${formattedTime}
+国家: ${data.country}
+时区: ${data.timezone}
 `;
 			}
 
