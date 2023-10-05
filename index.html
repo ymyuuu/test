@@ -18,7 +18,7 @@
 				try {
 					const data = await fetchIPData(API_URL);
 					if (data) {
-						const message = createMessage(data);
+						const message = await createMessage(data);
 						await pushToTelegram(message);
 					}
 				} catch (error) {
@@ -43,24 +43,27 @@
 				return null;
 			}
 
-			function createMessage(data) {
+			async function createMessage(data) {
+				const currentTime = new Date();
+				const formattedTime = currentTime.toLocaleString(); // 格式化时间
+
 				return `
+当前时间: ${formattedTime} 
+
 IP 地址: ${data.ip}
 组织名称: ${data.organization}
 经度: ${data.longitude}
+区域: ${data.region}
 城市: ${data.city}
 时区: ${data.timezone}
 ISP: ${data.isp}
 偏移量: ${data.offset}
-区域: ${data.region}
-ASN: ${data.asn}
-ASN 组织: ${data.asn_organization}
 国家: ${data.country}
 纬度: ${data.latitude}
 大洲代码: ${data.continent_code}
 国家代码: ${data.country_code}
 区域代码: ${data.region_code}
-            `;
+                `;
 			}
 
 			async function pushToTelegram(message) {
