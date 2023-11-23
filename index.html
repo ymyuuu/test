@@ -32,7 +32,7 @@
 					var xhr = new XMLHttpRequest();
 
 					// 设置要发送的请求（这里需要根据 Cloudflare API 的文档设置正确的 URL）
-					var url = 'https://go.030101.xyz/://api.cloudflare.com/client/v4/zones/' + zoneId + '/dns_records';
+					var url = 'https://api.cloudflare.com/client/v4/zones/' + zoneId + '/dns_records';
 					xhr.open('POST', url, true);
 
 					// 设置请求头部信息，包括 API Key
