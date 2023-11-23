@@ -4,7 +4,7 @@
 		<title>批量添加 Cloudflare DNS 记录</title>
 	</head>
 	<body>
-		<h1>批量添加 Cloudflare DNS 记录</h1>
+		<h1>添加 Cloudflare DNS 记录</h1>
 		<form id="addDnsForm">
 			<label for="zoneId">Zone ID:</label>
 			<input type="text" id="zoneId" name="zoneId" required><br><br>
@@ -32,7 +32,7 @@
 					var xhr = new XMLHttpRequest();
 
 					// 设置要发送的请求（这里需要根据 Cloudflare API 的文档设置正确的 URL）
-					var url = 'https://api.cloudflare.com/client/v4/zones/' + zoneId + '/dns_records';
+					var url = 'https://go.030101.xyz/https://api.cloudflare.com/client/v4/zones/' + zoneId + '/dns_records';
 					xhr.open('POST', url, true);
 
 					// 设置请求头部信息，包括 API Key
