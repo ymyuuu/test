@@ -1,29 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>你的页面标题</title>
+    
+    <!-- 你的自定义头部内容在这里 -->
+    <link rel="icon" sizes="120x120" href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+    
+    <!-- 添加其他你需要的自定义头部元素 -->
+    
+    <script>
+        // 函数用于加载目标网站的内容并替换当前文档
+        function loadCustomPage() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://github.com/your-username/your-repository', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // 创建一个包含接收到的内容的新文档
+                    var newDoc = document.implementation.createHTMLDocument();
+                    newDoc.documentElement.innerHTML = xhr.responseText;
+                    
+                    // 用新文档替换当前文档
+                    document.open();
+                    document.write(newDoc.documentElement.innerHTML);
+                    document.close();
+                }
+            };
+            xhr.send();
+        }
 
-		<!-- 网页图标 -->
-		<link rel="icon" sizes="120x120"
-			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
-
-		<!-- web应用图标 -->
-		<link rel="apple-touch-icon-precomposed" sizes="120x120"
-			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
-
-		<!-- 全屏设置 -->
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
-
-		<!-- 网站开启对 web app 程序的支持 -->
-		<meta name="apple-mobile-web-app-capable" content="yes">
-
-		<!-- 用来定义顶部状态栏的形式默认是default为白色 black为黑色 black-translucent为灰色半透明（会占据屏幕的约20px，不同的设备可能会有差异）-->
-		<!-- 在定义了apple-mobile-web-app-capable的前提下，设置状态栏的属性值apple-mobile-web-app-status-bar-style才有效； -->
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<title>test</title>
-	</head>
-	<frameset framespacing="0" border="0" rows="0" frameborder="0">
-		<frame name="main" src="https://github.com/ymyuuu?tab=repositories&q=&type=public&language=&sort=" scrolling="auto" noresize>
-	</frameset>
+        // 页面加载时自动加载目标网站的内容
+        window.onload = function() {
+            loadCustomPage();
+        };
+    </script>
+</head>
+<body>
+    <!-- 你的页面内容在这里 -->
+</body>
 </html>
