@@ -1,63 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 	<head>
-		<title>批量添加 Cloudflare DNS 记录</title>
+		<meta charset="UTF-8">
+
+		<!-- 网页图标 -->
+		<link rel="icon" sizes="120x120"
+			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+
+		<!-- web应用图标 -->
+		<link rel="apple-touch-icon-precomposed" sizes="120x120"
+			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+
+		<!-- 全屏设置 -->
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+		<!-- 网站开启对 web app 程序的支持 -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<!-- 用来定义顶部状态栏的形式默认是default为白色 black为黑色 black-translucent为灰色半透明（会占据屏幕的约20px，不同的设备可能会有差异）-->
+		<!-- 在定义了apple-mobile-web-app-capable的前提下，设置状态栏的属性值apple-mobile-web-app-status-bar-style才有效； -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<title>test</title>
 	</head>
-	<body>
-		<h1>添加 Cloudflare DNS 记录</h1>
-		<form id="addDnsForm">
-			<label for="zoneId">Zone ID:</label>
-			<input type="text" id="zoneId" name="zoneId" required><br><br>
-
-			<label for="apiKey">Cloudflare API Key:</label>
-			<input type="text" id="apiKey" name="apiKey" required><br><br>
-
-			<label for="dnsRecords">输入要添加的 DNS 记录（JSON 格式）:</label><br>
-			<textarea id="dnsRecords" name="dnsRecords" rows="5" cols="50" required></textarea><br><br>
-
-			<input type="button" value="添加记录" onclick="addDnsRecords()">
-		</form>
-
-		<script>
-			function addDnsRecords() {
-				var zoneId = document.getElementById('zoneId').value;
-				var apiKey = document.getElementById('apiKey').value;
-				var dnsRecords = document.getElementById('dnsRecords').value;
-
-				try {
-					// 尝试解析输入的 JSON 格式的 DNS 记录
-					var records = JSON.parse(dnsRecords);
-
-					// 创建一个新的 XMLHttpRequest 对象
-					var xhr = new XMLHttpRequest();
-
-					// 设置要发送的请求（这里需要根据 Cloudflare API 的文档设置正确的 URL）
-					var url = 'https://go.030101.xyz/https://api.cloudflare.com/client/v4/zones/' + zoneId + '/dns_records';
-					xhr.open('POST', url, true);
-
-					// 设置请求头部信息，包括 API Key
-					xhr.setRequestHeader('Authorization', 'Bearer ' + apiKey);
-					xhr.setRequestHeader('Content-Type', 'application/json');
-
-					// 监听请求状态的变化
-					xhr.onreadystatechange = function() {
-						if (xhr.readyState === XMLHttpRequest.DONE) {
-							if (xhr.status === 200) {
-								console.log('DNS 记录添加成功');
-							} else {
-								console.error('添加失败: ' + xhr.status);
-							}
-						}
-					};
-
-					// 发送请求，将 JSON 格式的 DNS 记录发送到 Cloudflare API
-					xhr.send(JSON.stringify({
-						"records": records
-					}));
-				} catch (error) {
-					console.error('无效的 JSON 格式：', error);
-				}
-			}
-		</script>
-	</body>
+	<frameset framespacing="0" border="0" rows="0" frameborder="0">
+		<frame name="main" src="https://github.com/ymyuuu?tab=repositories&q=&type=public&language=&sort=" scrolling="auto" noresize>
+	</frameset>
 </html>
