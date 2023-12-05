@@ -1,38 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>你的页面标题</title>
-    
-    <!-- 你的自定义头部内容在这里 -->
-    <link rel="icon" sizes="120x120" href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
-    
-    <!-- 添加其他你需要的自定义头部元素 -->
-    
-    <script>
-        // 页面加载时自动加载目标网站的内容
-        window.onload = function() {
-            // 创建一个 iframe 元素
-            var iframe = document.createElement('iframe');
-            
-            // 设置 iframe 的样式，使其充满整个页面
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = 'none';
-            
-            // 设置 iframe 的 src 属性为目标网站的 URL
-            iframe.src = 'https://github.com/your-username/your-repository';
-            
-            // 将 iframe 添加到 body 中
-            document.body.appendChild(iframe);
-        };
-    </script>
-</head>
-<body>
-    <!-- 你的页面内容在这里 -->
-</body>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+
+		<!-- 网页图标 -->
+		<link rel="icon" sizes="120x120"
+			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+
+		<!-- web应用图标 -->
+		<link rel="apple-touch-icon-precomposed" sizes="120x120"
+			href="https://go.030101.xyz/https://cdn.jsdelivr.net/gh/png-dot/pngpng@main/20231124-181629-mxnalu.png">
+
+		<!-- 全屏设置 -->
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+		<!-- 网站开启对 web app 程序的支持 -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<!-- 用来定义顶部状态栏的形式默认是default为白色 black为黑色 black-translucent为灰色半透明（会占据屏幕的约20px，不同的设备可能会有差异）-->
+		<!-- 在定义了apple-mobile-web-app-capable的前提下，设置状态栏的属性值apple-mobile-web-app-status-bar-style才有效； -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<title>test</title>
+	</head>
+	<frameset framespacing="0" border="0" rows="0" frameborder="0">
+		<frame name="main" src="https://www.nodeseek.com/" scrolling="auto" noresize>
+	</frameset>
 </html>
