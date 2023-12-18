@@ -12,18 +12,13 @@ async function calculateDaysRunning() {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
-  const htmlPath = 'index.html'; // 修改此处为你的 HTML 文件路径
   const cfWorkersUrl = 'http://speed.cloudflare.com/__down';
   const param = url.pathname.split('/').pop();
   let bytesParam = 0;
 
-  // 读取 HTML 文件内容
-  const htmlResponse = await fetch(htmlPath);
-  const responseText = await htmlResponse.text();
-
   if (param === '') {
     // 返回帮助文档页面
-    return new Response(responseText, {
+    return new Response(await getHTMLContent(), {
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=UTF-8',
@@ -45,7 +40,7 @@ async function handleRequest(request) {
     bytesParam = parseInt(param, 10);
   } else {
     // 如果参数无效，则返回帮助文档页面
-    return new Response(responseText, {
+    return new Response(await getHTMLContent(), {
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=UTF-8',
@@ -65,4 +60,11 @@ async function handleRequest(request) {
   });
 
   return response;
+}
+
+async function getHTMLContent() {
+  // 读取 HTML 文件内容
+  const htmlPath = 'index.html'; // 修改此处为你的 HTML 文件路径
+  const htmlResponse = await fetch(htmlPath);
+  return await htmlResponse.text();
 }
