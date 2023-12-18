@@ -1,37 +1,81 @@
-// 图片数组
-const images = [
-	'https://im.030101.xyz/file/fcce5bae2f1d8b791ab6e.jpg',
-	'https://im.030101.xyz/file/b09301c5b252d8da0f6c6.jpg',
-	'https://im.030101.xyz/file/a806e5cd3d19f54112191.jpg',
-	'https://im.030101.xyz/file/e52483ddf724c5c64c360.jpg',
-	'https://im.030101.xyz/file/2d5ff3b8aff117d6cd23f.jpg',
-	'https://im.030101.xyz/file/c6c8054aec11379eaa53a.jpg',
-	'https://im.030101.xyz/file/c31adb6592a223cb53ca7.jpg'
-];
-// 计算时间差函数
-function getTimeDifference(start, end) {
-	const difference = end.getTime() - start.getTime();
-	const daysDifference = Math.floor(difference / (1000 * 60 * 60 * 24));
-	return daysDifference;
+// 计算网站运行天数的异步函数
+async function calculateDaysRunning() {
+  // 网站启动日期（北京时间）
+  const startDate = new Date('2023-11-11T00:00:00+08:00');
+  // 当前日期（北京时间）
+  const currentDate = new Date();
+  // 计算时间差
+  const timeDifference = currentDate.getTime() - startDate.getTime();
+  // 计算运行天数
+  const daysRunning = Math.floor(timeDifference / (1000 * 3600 * 24));
+  return daysRunning;
 }
 
-// 你们在一起的起始时间
-const startDate = new Date('2021-12-02'); // 替换成实际的起始时间
+// 处理传入请求的函数
+async function handleRequest(request) {
+  // 解析请求的 URL
+  const url = new URL(request.url)
+  const cfWorkersUrl = 'http://speed.cloudflare.com/__down'
+  const param = url.pathname.split('/').pop() // 获取 URL 路径中的参数
+  let bytesParam = 0
 
-// 当前时间
-const currentDate = new Date();
+  // 如果路径参数为空，则返回帮助文档页面
+  if (param === '') {
+    return new Response(responseText, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      }
+    })
+  }
 
-// 计算时间差
-const timeDifference = getTimeDifference(startDate, currentDate);
+  // 解析路径中的参数以确定字节大小
+  if (param.endsWith('kb')) {
+    const kbValue = parseFloat(param.replace('kb', ''))
+    bytesParam = kbValue * 1024
+  } else if (param.endsWith('mb')) {
+    const mbValue = parseFloat(param.replace('mb', ''))
+    bytesParam = mbValue * 1024 * 1024
+  } else if (param.endsWith('gb')) {
+    const gbValue = parseFloat(param.replace('gb', ''))
+    bytesParam = gbValue * 1024 * 1024 * 1024
+  } else if (!isNaN(parseInt(param, 10))) {
+    bytesParam = parseInt(param, 10) // 将字符串参数转换为数字
+  } else {
+    // 如果参数无效，则返回帮助文档页面
+    return new Response(responseText, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      }
+    })
+  }
 
-// 获取显示时间的元素
-const timeTogetherElement = document.getElementById('timeTogether');
+  // 构建新的目标 URL
+  const targetUrl = `${cfWorkersUrl}?bytes=${bytesParam}`
 
-// 设置显示的时间内容
-timeTogetherElement.innerHTML =
-	`Days ${timeDifference} together, I <a href="https://push.zzy.cloudns.biz/" class="no-underline" target="_blank">miss you.</a> `;
+  // 向目标 URL 发送请求，禁用缓存
+  const response = await fetch(targetUrl, {
+    method: request.method,
+    headers: {
+      ...request.headers,
+      'Cache-Control': 'no-store', // 禁用缓存
+    },
+    body: request.method !== 'GET' ? request.body : undefined,
+  })
 
-// 随机选择图片
-const randomIndex = Math.floor(Math.random() * images.length);
-const randomImageElement = document.getElementById('randomImage');
-randomImageElement.src = images[randomIndex];
+  // 返回从目标 URL 收到的响应
+  return response
+}
+
+// 获取页面中的元素
+const daysCountElement = document.getElementById('days-count');
+
+// 更新页面中的网站运行天数
+async function updateDaysRunning() {
+  const daysRunning = await calculateDaysRunning();
+  daysCountElement.textContent = daysRunning;
+}
+
+// 页面加载完成后执行更新
+document.addEventListener('DOMContentLoaded', updateDaysRunning);
