@@ -1,7 +1,3 @@
-addEventListener('fetch', event => {
-	event.respondWith(handleRequest(event.request))
-})
-
 // 计算网站运行天数的异步函数
 async function calculateDaysRunning() {
 	// 网站启动日期（北京时间）
@@ -25,6 +21,7 @@ async function handleRequest(request) {
 
 	// 如果路径参数为空，则返回帮助文档页面
 	if (param === '') {
+		const responseText = await getHTMLContent(); // 调用 getHTMLContent 获取 HTML 内容
 		return new Response(responseText, {
 			status: 200,
 			headers: {
@@ -47,6 +44,7 @@ async function handleRequest(request) {
 		bytesParam = parseInt(param, 10) // 将字符串参数转换为数字
 	} else {
 		// 如果参数无效，则返回帮助文档页面
+		const responseText = await getHTMLContent(); // 调用 getHTMLContent 获取 HTML 内容
 		return new Response(responseText, {
 			status: 200,
 			headers: {
@@ -71,9 +69,15 @@ async function handleRequest(request) {
 	// 返回从目标 URL 收到的响应
 	return response
 }
+
+// 获取 HTML 内容的函数
 async function getHTMLContent() {
 	// 读取 HTML 文件内容
 	const htmlPath = 'index.html'; // 修改此处为你的 HTML 文件路径
 	const htmlResponse = await fetch(htmlPath);
 	return await htmlResponse.text();
 }
+
+addEventListener('fetch', event => {
+	event.respondWith(handleRequest(event.request))
+});
