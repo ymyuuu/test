@@ -1,5 +1,5 @@
 // 计算网站运行天数的异步函数
-async function calculateDaysRunning() {
+export async function calculateDaysRunning() {
   // 网站启动日期（北京时间）
   const startDate = new Date('2023-11-11T00:00:00+08:00');
   // 当前日期（北京时间）
@@ -12,7 +12,7 @@ async function calculateDaysRunning() {
 }
 
 // 处理传入请求的函数
-async function handleRequest(request) {
+export async function handleRequest(request) {
   // 解析请求的 URL
   const url = new URL(request.url)
   const cfWorkersUrl = 'http://speed.cloudflare.com/__down'
@@ -68,14 +68,23 @@ async function handleRequest(request) {
   return response
 }
 
-// 获取页面中的元素
-const daysCountElement = document.getElementById('days-count');
+// 导出 Cloudflare Workers 的请求处理函数
+export async function onRequestPost(context) {
+  const {
+    request, // 与现有的Cloudflare Workers API中的request相同
+    env, // 与现有的Cloudflare Workers API中的env相同
+    params, // 如果文件名包含[id]或[[path]]，则包含参数
+    waitUntil, // 与现有的Cloudflare Workers API中的ctx.waitUntil相同
+    next, // 用于中间件或获取资源
+    data, // 在中间件之间传递数据的任意空间
+  } = context;
 
-// 更新页面中的网站运行天数
-async function updateDaysRunning() {
-  const daysRunning = await calculateDaysRunning();
-  daysCountElement.textContent = daysRunning;
+  // 从请求中获取URL信息
+  const url = new URL(request.url);
+
+  // 调用处理请求的函数
+  const response = await handleRequest(request);
+
+  // 返回处理后的响应
+  return response;
 }
-
-// 页面加载完成后执行更新
-document.addEventListener('DOMContentLoaded', updateDaysRunning);
